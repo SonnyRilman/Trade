@@ -143,7 +143,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <?php include APPPATH . 'Views/layouts/navbar.php'; ?>
@@ -156,7 +155,7 @@
                     <button class="btn btn-primary">Search</button>
                 </div>
                 <div>
-                    <button class="btn btn-primary">Add Statue</button>
+                    <a href="/inventory/add"><button class="btn btn-primary">Add Statue</button></a>
                     <select class="sort-select">
                         <option>Sort by</option>
                         <option>Name</option>
@@ -181,47 +180,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td>#301</td>
+                        <td>#<?= $item['id']; ?></td>
                         <td>
-                            <img src="/api/placeholder/40/40" alt="Bali Stone Elephant" class="avatar">
-                            Bali Stone Elephant
+                            <img src="/api/placeholder/40/40" alt="<?= $item['name']; ?>" class="avatar">
+                            <?= $item['name']; ?>
                         </td>
-                        <td>John Doe</td>
-                        <td>10</td>
-                        <td>$120.00</td>
-                        <td><span class="badge badge-success">Available</span></td>
+                        <td><?= $item['artist']; ?></td>
+                        <td><?= $item['stock']; ?></td>
+                        <td>$<?= number_format($item['price'], 2); ?></td>
+                        <td><span class="badge badge-success"><?= $item['status']; ?></span></td>
                         <td><button class="btn btn-outline"><i class="fas fa-edit"></i></button></td>
                     </tr>
-                    <tr>
-                        <td>#302</td>
-                        <td>
-                            <img src="/api/placeholder/40/40" alt="Balinese Goddess" class="avatar">
-                            Balinese Goddess
-                        </td>
-                        <td>Jane Smith</td>
-                        <td>5</td>
-                        <td>$150.00</td>
-                        <td><span class="badge badge-warning">Limited Stock</span></td>
-                        <td><button class="btn btn-outline"><i class="fas fa-edit"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>#303</td>
-                        <td>
-                            <img src="/api/placeholder/40/40" alt="Wooden Bali Statue" class="avatar">
-                            Wooden Bali Statue
-                        </td>
-                        <td>Mike Brown</td>
-                        <td>8</td>
-                        <td>$80.00</td>
-                        <td><span class="badge badge-danger">Out of Stock</span></td>
-                        <td><button class="btn btn-outline"><i class="fas fa-edit"></i></button></td>
-                    </tr>
-                    <!-- More rows as needed -->
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </main>
     </div>
 </body>
-
 </html>

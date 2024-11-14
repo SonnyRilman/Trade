@@ -2,34 +2,46 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use CodeIgniter\Controller;
 
 class AuthController extends Controller
 {
-    public function loginForm()
-    {
-        return view('auth/login'); // Menampilkan form login
-    }
-
     public function login()
     {
-        $userModel = new UserModel();
+        // Tampilkan halaman login (view)
+        return view('login');
+    }
 
-        // Ambil data dari request POST
-        $username = $this->request->getVar('username');
-        $password = $this->request->getVar('password');
+    public function authenticate()
+    {
+        $session = session();
+        $model = new \App\Models\UserModel();
 
-        // Cari pengguna berdasarkan username
-        $user = $userModel->where('username', $username)->first();
+        // Ambil data dari form login
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
 
-        if ($user && password_verify($password, $user['password'])) {
-            // Simpan data login ke session
-            session()->set(['isLoggedIn' => true, 'username' => $username]);
-            return redirect()->to('/admin'); // Arahkan ke halaman dashboard admin
+        // Cari user berdasarkan username
+        $user = $model->where('username', $username)->first();
+
+        if ($user && MD5($password) === $user['password']) {  // Membandingkan MD5 password
+            // Jika login berhasil, set session dan redirect ke dashboard
+            $session->set('user_id', $user['user_id']);
+            $session->set('username', $user['username']);
+            $session->set('role', $user['role']);
+            return redirect()->to('/dashboard');
         } else {
-            return redirect()->back()->with('error', 'Username atau password salah');
+            // Jika gagal login, set flashdata dan kembali ke halaman login
+            $session->setFlashdata('error', 'Invalid username or password');
+            return redirect()->to('/');
         }
     }
-}
 
+    public function logout()
+    {
+        // Logout dan hapus session
+        $session = session();
+        $session->destroy();
+        return redirect()->to('/');
+    }
+}

@@ -30,13 +30,13 @@
                 </thead>
                 <tbody>
                     <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td>#<?= $order['order_id']; ?></td>
-                        <td><?= $order['customer_name']; ?></td>
-                        <td>$<?= number_format($order['total'], 2); ?></td>
-                        <td><span class="badge badge-<?= strtolower($order['status']); ?>"><?= $order['status']; ?></span></td>
-                        <td><button class="btn btn-primary">Details</button></td>
-                    </tr>
+                        <tr>
+                            <td>#<?= $order['order_id']; ?></td>
+                            <td><?= $order['customer_name']; ?></td>
+                            <td>$<?= number_format($order['total'], 2); ?></td>
+                            <td><span class="badge badge-<?= strtolower($order['status']); ?>"><?= $order['status']; ?></span></td>
+                            <td><button class="btn btn-primary">Details</button></td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
